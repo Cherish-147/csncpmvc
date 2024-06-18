@@ -1,0 +1,70 @@
+﻿@model sales.DAL.用户表
+
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>用户表</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label for="UserName" class="control-label col-md-2">用户名</label>
+            <div class="col-md-10">
+                <input type="text" id="UserName" name="UserName" class="form-control" value="@ViewBag.UserName" />
+                @Html.ValidationMessage("UserName", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Password" class="control-label col-md-2">密码</label>
+            <div class="col-md-10">
+                <input type="password" id="Password" name="Password" class="form-control" value="@ViewBag.Password" />
+                @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="AgainPassword" class="control-label col-md-2">确认密码</label>
+            <div class="col-md-10">
+                <input type="password" id="AgainPassword" name="AgainPassword" class="form-control" value="@ViewBag.AgainPassword" />
+                @Html.ValidationMessage("AgainPassword", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="提交" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    function showMessage(message) {
+        alert(message);
+    }
+</script>

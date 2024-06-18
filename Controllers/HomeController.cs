@@ -61,34 +61,7 @@ namespace csncpmvc.Controllers
                 }
             }
             return View(); // 返回登录视图
-            //绿色注释的是原来分开的代码
-            //    UserService userService = new UserService(); // 创建 UserService 实例
-            //    bool isAuthenticated = userService.UserInput(UserName, PassWord); // 调用 UserService 的 Login 方法验证用户身份
-            //    bool isnull = userService.ValidateUser(UserName, PassWord, UserType); // 调用 UserService 的 Login 方法验证用户身份
-            //    if (isnull) { 
-            //    if (isAuthenticated ) // 如果验证通过
-            //    {
-
-            //        // 根据用户类型重定向
-            //        if (UserType == 1) // 如果是普通用户
-            //        {
-
-            //            return RedirectToAction("Index", "User"); // 重定向到 User 控制器的 UserDashboard 动作
-            //        }
-            //        else  // 如果是管理员
-            //        {
-            //            return RedirectToAction("Index", "Admin"); // 重定向到 Admin 控制器的 AdminDashboard 动作
-            //        }
-            //    }
-
-            //    }
-            //    else
-            //    {
-            //        ModelState.AddModelError("", "用户名或密码错误.\""); 
-            //    }
-
-            //return View(); // 返回登录视图
-            //绿色注释的是原来分开的代码
+            
         }
 
         // GET: Home/Register
@@ -96,5 +69,19 @@ namespace csncpmvc.Controllers
         {
             return View(); // 返回注册视图
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(string UserName, string Password, string AgainPassword)
+        {
+            ViewBag.UserName = UserName;
+            ViewBag.Password = Password;
+            ViewBag.AgainPassword = AgainPassword;
+            
+            sales.BLL.UserService.UserRegister(UserName,Password,AgainPassword);
+            TempData["Message"] = "注册成功";
+            //return RedirectToAction("Index");
+            return View();
+        }
+
     }
 }
