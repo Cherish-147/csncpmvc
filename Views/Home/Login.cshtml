@@ -1,0 +1,68 @@
+﻿@model sales.DAL.用户表
+@{
+    ViewBag.Title = "用户登录";
+}
+
+<h2>用户登录</h2>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            用户名
+            @Html.Label("用户名", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="UserName" class="form-control" />
+                @Html.ValidationMessageFor(m => m.usename, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Html.Label("密码", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="password" name="Password" class="form-control" />
+                @Html.ValidationMessageFor(m => m.pwd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">身份</label>
+            <div class="col-md-10">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="UserType" id="User" value="1" checked>
+                    <label class="form-check-label" for="User">用户</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="UserType" id="Admin" value="2">
+                    <label class="form-check-label" for="Admin">管理员</label>
+                </div>
+                @Html.ValidationMessageFor(m => m.keys, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="登录" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="@Url.Action("Register", "Home")" class="btn btn-link">没有账号？立即注册</a>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回列表", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
