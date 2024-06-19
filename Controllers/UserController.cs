@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using sales.BLL;
@@ -50,9 +51,14 @@ namespace csncpmvc.Controllers
         }
 
         // GET: Product/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var product = productService.GetProductByIds(id);
+            if (!id.HasValue)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "The id parameter is required.");
+            }
+
+            var product = productService.GetProductByIds(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -60,6 +66,7 @@ namespace csncpmvc.Controllers
 
             return View(product); // 确保返回的是单个产品对象
         }
+
 
 
         // POST: Product/Buy
