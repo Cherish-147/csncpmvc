@@ -63,26 +63,63 @@ namespace csncpmvc.Controllers
 
 
         // POST: Product/Buy
-        [HttpPost]
-        public ActionResult Buy(string goods_id)
+        //原来的
+        //[HttpPost]
+        //public ActionResult Buy(string goods_id)
+        //{
+        //    if (string.IsNullOrEmpty(goods_id))
+        //    {
+        //        ModelState.AddModelError("", "请选择一项商品，再点击购买");
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        // 执行购买逻辑
+        //        return RedirectToAction("Shopping"); // 假设重定向到购物页面
+        //    }
+        //}
+
+
+        // GET: Product/Buy/5
+        // 新
+        // GET: Product/Buy/5
+        public ActionResult Buy(int id)
         {
-            if (string.IsNullOrEmpty(goods_id))
+            var product = productService.GetProductById(id);
+            if (product == null)
             {
-                ModelState.AddModelError("", "请选择一项商品，再点击购买");
-                return RedirectToAction("Index");
+                return HttpNotFound();
             }
-            else
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Buy(int PurchaseQuantity, string goods_id, string goods_name, string unit_price, string stock_quantiy, string Username)
+        {
+            try
             {
-                // 执行购买逻辑
-                return RedirectToAction("Shopping"); // 假设重定向到购物页面
+                var result = productService.Purchase(PurchaseQuantity, stock_quantiy, unit_price, goods_name, Username, goods_id);
+                return RedirectToAction("Shopping", new { id = result });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                var product = productService.GetProductById(int.Parse(goods_id));
+                return View(product);
             }
         }
 
-        // GET: Product/Shopping
-        public ActionResult Shopping()
+        public ActionResult Shopping(string id)
         {
+            ViewBag.ProductName = id;
             return View();
         }
+        //[HttpGet]
+        //public ActionResult Index()
+        //{
+        //    var products = productService.GetProducts(null, null, true);
+        //    return View(products);
+        //}
 
     }
 }
