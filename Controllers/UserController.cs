@@ -105,6 +105,21 @@ namespace csncpmvc.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult ProcessSelection(string selectedProductId, string action)
+        {
+            if (action == "Details")
+            {
+                return RedirectToAction("Details", new { id = selectedProductId });
+            }
+            else if (action == "Buy")
+            {
+                // 处理购买逻辑
+                return RedirectToAction("Shopping", new { id = selectedProductId });
+            }
+
+            return RedirectToAction("Index");
+        }
 
 
         public string Purchase(int number, string inventory, string price, string goodsname, string Username, string goodsid)
