@@ -6,9 +6,12 @@
 <link rel="stylesheet" href="~/Content/AuditOrder.css" />
 <h2>CartView</h2>
 
-@if (Model != null && Model.Any())
+@*@if (Model != null && Model.Any())
+{*@
+
+
+@using (Html.BeginForm("ProcessSelections", "User", FormMethod.Post))
 {
-    <form action="@Url.Action("Checkout", "User")" method="post">
         <!-- 确保控制器名称和方法名称正确 -->
         <table class="table">
             <thead>
@@ -37,27 +40,30 @@
                         <td class="text-center">
                             <form action="@Url.Action("DeleteCartItem", "User")" method="post" style="display:inline;">
                                 <input type="hidden" name="cartItemId" value="@shop.Cartitemld" />
-                                <button type="submit" class="btn btn-danger">删除</button>
+                                
                             </form>
                         </td>
-                        <tb>
+                        <td>
                             @* 隐藏字段用于传递每一行的数据 *@
                             <input type="hidden" name="CartItems[@shop.Cartitemld].Cartitemld" value="@shop.Cartitemld" />
                             <input type="hidden" name="CartItems[@shop.Cartitemld].Username" value="@shop.username" />
                             <input type="hidden" name="CartItems[@shop.Cartitemld].Proname" value="@shop.Proname" />
                             <input type="hidden" name="CartItems[@shop.Cartitemld].ListPrice" value="@shop.ListPrice" />
                             <input type="hidden" name="CartItems[@shop.Cartitemld].Qty" value="@shop.Qty" />
-                        </tb>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button type="submit" name="action" value="Checkout">结算</button>
-        <button type="submit" name="action" value="Detele" class="btn btn-primary">删除</button>
-
-    </form>
 }
+
+<div>
+    <button type="submit" name="action" value="Checkout">结算</button>
+    <button type="submit" name="action" value="Detele" class="btn btn-primary">删除</button>
+</div>
+
+@*}
 else
 {
     <p>没有找到符合条件的订单。</p>
-}
+}*@

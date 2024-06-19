@@ -244,6 +244,7 @@ namespace csncpmvc.Controllers
         [HttpPost]
         public ActionResult ProcessSelections(string selectedProductId, string action)
         {
+            Session["Cid"] = selectedProductId;
             if (action == "Checkout")
             {
                 return RedirectToAction("Checkout", new { id = selectedProductId });
@@ -257,24 +258,33 @@ namespace csncpmvc.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Detele()
+        public ActionResult Detele(string id)
         {
+            
+            ProductMethod.CartDelete(id);
+
             return View();
         }
         //结算
         public ActionResult Checkout()
         {
+            
             return View();  
         }
         private ProductMethod OrderService = new ProductMethod();
+        [HttpPost]
         public ActionResult Finnally(string username,string province,string city,string address,string zipcode, string phone)
         {
             username=Session["username"].ToString();
+            string Cid = Session["Cid"].ToString();
             OrderService.AddOrder(username, province, city, address, zipcode, phone);
             ProductMethod.DeleteCart(username);
             return View();
         }
-        public ActionResult Finnally() { return View(); }
+        public ActionResult Finnally()
+        { 
+            return View(); 
+        }
         //public ActionResult CartView(string username)
         //{
 
