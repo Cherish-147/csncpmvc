@@ -1,4 +1,4 @@
-﻿@model IEnumerable<sales.DAL.产品表> 
+﻿@model IEnumerable<sales.DAL.产品表>
 
 @{
     ViewBag.Title = "Product List";
@@ -15,42 +15,48 @@
     <p>
         Filter by ID:
         @Html.DropDownList("goodsId", ViewBag.GoodsIdList as SelectList, "Select ID", new { @onchange = "this.form.submit();" })
-
     </p>
     <p>
         <button type="submit" name="showAll" value="true">Show All Data</button>
     </p>
 </form>
 
-<form method="post" action="@Url.Action("SelectedProduct")">
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Price</th>
+            <th>Stock Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>Select</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Supplier</th>
-                <th>Price</th>
-                <th>Stock Quantity</th>
+                <td>
+                    <input type="radio" name="selectedProductId" value="@item.goods_id" />
+                </td>
+                <td>@item.goods_id</td>
+                <td>@item.goods_name</td>
+                <td>@item.classifcation_id</td> <!-- 你可以根据需要显示更多的详细信息 -->
+                <td>@item.supplier_id</td>
+                <td>@item.unit_price</td>
+                <td>@item.stock_quantiy</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <input type="radio" name="selectedProductId" value="@item.goods_id" />
-                    </td>
-                    <td>@item.goods_id</td>
-                    <td>@item.goods_name</td>
-                    <td>@item.classifcation_id</td> <!-- 你可以根据需要显示更多的详细信息 -->
-                    <td>@item.supplier_id</td>
-                    <td>@item.unit_price</td>
-                    <td>@item.stock_quantiy</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+<!-- Form for selecting a product -->
+<form method="post" action="@Url.Action("Details")">
     <button type="submit">Submit Selected Product</button>
+</form>
+
+<!-- Form for buying a product -->
+<form method="post" action="@Url.Action("Shopping")">
+    <button type="submit" class="btn btn-primary">Buy</button>
 </form>
