@@ -55,5 +55,11 @@
     <div>
         <button type="submit" name="action" value="Details">Submit Selected Product</button>
         <button type="submit" name="action" value="Buy" class="btn btn-primary">Buy</button>
+
     </div>
 }
+
+<form method="get" action="@Url.Action("CartView", "User")">
+    <!-- 确保控制器名称和方法名正确 -->
+    <button type="submit"  class="btn btn-primary">查看购物车</button>
+</form>

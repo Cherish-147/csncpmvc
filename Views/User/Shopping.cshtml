@@ -7,7 +7,7 @@
 <h2>Product Details</h2>
 
 <div>
-    <form method="post" action="@Url.Action("BuyProduct")">
+    <form method="post" action="@Url.Action("SummitPurchase","User")">
         <h4>Product</h4>
         <hr />
         <dl class="dl-horizontal">
@@ -27,8 +27,13 @@
         </div>
         <div>
             <button type="submit">提交</button>
-            <a href="@Url.Action("Index")">
-            <button type="button">返回</button></a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">返回</a>
         </div>
+        @* 隐藏字段以传递其他必要信息 *@
+        <input type="hidden" name="goods_id" value="@Model.goods_id" />
+        <input type="hidden" name="goods_name" value="@Model.goods_name" />
+        <input type="hidden" name="unit_price" value="@Model.unit_price" />
+        <input type="hidden" name="stock_quantiy" value="@Model.stock_quantiy" />
+        <input type="hidden" name="username" value="@User.Identity.Name" /> <!-- Assuming you have a way to get the logged-in user's name -->
     </form>
 </div>

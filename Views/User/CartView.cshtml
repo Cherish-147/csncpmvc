@@ -1,0 +1,63 @@
+﻿@model IEnumerable<sales.DAL.购物车表>
+@{
+    ViewBag.Title = "CartView";
+}
+
+<link rel="stylesheet" href="~/Content/AuditOrder.css" />
+<h2>CartView</h2>
+
+@if (Model != null && Model.Any())
+{
+    <form action="@Url.Action("Checkout", "User")" method="post">
+        <!-- 确保控制器名称和方法名称正确 -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>购物车编号</th>
+                    <th>用户名</th>
+                    <th>产品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var shop in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input type="radio" name="selectedProductId" value="@shop.Cartitemld" required />
+                        </td>
+                        <td class="text-center">@shop.Cartitemld</td>
+                        <td class="text-center">@shop.username</td>
+                        <td class="text-center">@shop.Proname</td>
+                        <td class="text-center">@shop.ListPrice</td>
+                        <td class="text-center">@shop.Qty</td>
+                        <td class="text-center">
+                            <form action="@Url.Action("DeleteCartItem", "User")" method="post" style="display:inline;">
+                                <input type="hidden" name="cartItemId" value="@shop.Cartitemld" />
+                                <button type="submit" class="btn btn-danger">删除</button>
+                            </form>
+                        </td>
+                        <tb>
+                            @* 隐藏字段用于传递每一行的数据 *@
+                            <input type="hidden" name="CartItems[@shop.Cartitemld].Cartitemld" value="@shop.Cartitemld" />
+                            <input type="hidden" name="CartItems[@shop.Cartitemld].Username" value="@shop.username" />
+                            <input type="hidden" name="CartItems[@shop.Cartitemld].Proname" value="@shop.Proname" />
+                            <input type="hidden" name="CartItems[@shop.Cartitemld].ListPrice" value="@shop.ListPrice" />
+                            <input type="hidden" name="CartItems[@shop.Cartitemld].Qty" value="@shop.Qty" />
+                        </tb>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" name="action" value="Checkout">结算</button>
+        <button type="submit" name="action" value="Detele" class="btn btn-primary">删除</button>
+
+    </form>
+}
+else
+{
+    <p>没有找到符合条件的订单。</p>
+}

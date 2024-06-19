@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "删除";
+}
+
+<h2>Detele</h2>
+
+
+
+<h2>删除成功</h2>
+
+<div class="alert alert-success">
+    <strong>成功!</strong> 您的购买已成功提交。
+</div>
+
+<div>
+    <p>感谢您的购买。以下是您的订单详情：</p>
+    <ul>
+        <li>商品名称: @ViewBag.GoodsName</li>
+        <li>购买数量: @ViewBag.PurchaseQuantity</li>
+        <li>单价: @ViewBag.UnitPrice</li>
+        <li>总价: @(ViewBag.PurchaseQuantity * ViewBag.UnitPrice)</li>
+    </ul>
+</div>
+
+<div>
+    <a href="@Url.Action("Index", "User")" class="btn btn-primary">继续购物</a>
+    <a href="@Url.Action("CartView", "User")" class="btn btn-secondary">查看购物车</a>
+</div>
+

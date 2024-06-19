@@ -45,6 +45,7 @@ namespace csncpmvc.Controllers
 
                 if (isAuthenticated) // 如果验证通过
                 {
+                    Session["username"] = UserName;
                     // 根据用户类型重定向
                     if (UserType == 1) // 如果是普通用户
                     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using IdentityServer3.Core.ViewModels;
 using sales.BLL;
 using sales.DAL;
 
@@ -105,6 +106,12 @@ namespace csncpmvc.Controllers
         }
 
 
+        /// <summary>
+        /// 处理两个按钮是去下单还是查看详细
+        /// </summary>
+        /// <param name="selectedProductId"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult ProcessSelection(string selectedProductId, string action)
         {
@@ -121,7 +128,32 @@ namespace csncpmvc.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult SummitPurchase()
+        {
+            return View();
+        }
 
+        // 处理提交购买数量的请求
+        [HttpPost]
+        public ActionResult SummitPurchase(int purchaseQuantity, int goods_id, string goods_name, string unit_price, string stock_quantiy, string username)
+        {
+            try
+            {
+                username = Session["username"].ToString(); // 测试用
+                Purchase(purchaseQuantity, stock_quantiy, unit_price, goods_name, username, goods_id.ToString());
+                // 设置 ViewBag 变量(新增三行)
+                ViewBag.GoodsName = goods_name;
+                ViewBag.PurchaseQuantity = purchaseQuantity;
+                ViewBag.UnitPrice = decimal.Parse(unit_price);
+                ViewBag.Message = "购买成功";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+            }
+
+            return View();
+        }
         public string Purchase(int number, string inventory, string price, string goodsname, string Username, string goodsid)
         {
             int Goods = int.Parse(goodsid);
@@ -181,7 +213,73 @@ namespace csncpmvc.Controllers
             return goodsid.ToString();
         }
 
+        private GreenFoodSalesModel1 db = new GreenFoodSalesModel1();
+        //查看购物车
+        public ActionResult CartView() { 
+            string username = Session["username"].ToString();
+            var look=from l in db.购物车表 where(l.username == username) select l;
+            return View(look);
+        }
 
+
+        public ActionResult Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // 验证用户登录信息
+                var user = db.用户表.SingleOrDefault(u => u.usename == model.Username );
+                if (user != null)
+                {
+                    Session["username"] = user.usename;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "用户名或密码错误");
+                }
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult ProcessSelections(string selectedProductId, string action)
+        {
+            if (action == "Checkout")
+            {
+                return RedirectToAction("Checkout", new { id = selectedProductId });
+            }
+            else if (action == "Detele")
+            {
+                // 处理购买逻辑
+                return RedirectToAction("Detele", new { id = selectedProductId });
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Detele()
+        {
+            return View();
+        }
+        //结算
+        public ActionResult Checkout()
+        {
+            return View();  
+        }
+        private ProductMethod OrderService = new ProductMethod();
+        public ActionResult Finnally(string username,string province,string city,string address,string zipcode, string phone)
+        {
+            username=Session["username"].ToString();
+            OrderService.AddOrder(username, province, city, address, zipcode, phone);
+            ProductMethod.DeleteCart(username);
+            return View();
+        }
+        public ActionResult Finnally() { return View(); }
+        //public ActionResult CartView(string username)
+        //{
+
+        //}
+        //购物车
 
     }
 }

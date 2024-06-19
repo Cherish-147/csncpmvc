@@ -1,0 +1,60 @@
+﻿/* Site.css */
+
+/* Reset default margin and padding for all elements */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+    /* Apply box-sizing to include padding and border in element's total width and height */
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+/* Style for the table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+    .table th, .table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center; /* 居中对齐文本 */
+    }
+
+    .table th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+
+    .table td {
+        background-color: #ffffff;
+    }
+
+/* Center align content within table cells */
+.text-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Style for form elements */
+form {
+    margin-top: 20px;
+}
+
+button[type="submit"] {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
