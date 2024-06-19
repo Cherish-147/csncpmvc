@@ -1,0 +1,35 @@
+﻿@model sales.DAL.产品表
+
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<h2>Product Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Product ID</dt>
+        <dd>@Model.goods_id</dd>
+
+        <dt>Product Name</dt>
+        <dd>@Model.goods_name</dd>
+
+        <dt>Category</dt>
+        <dd>@Model.classifcation_id</dd>
+
+        <dt>Supplier</dt>
+        <dd>@Model.supplier_id</dd>
+
+        <dt>Price</dt>
+        <dd>@Model.unit_price</dd>
+
+        <dt>Stock Quantity</dt>
+        <dd>@Model.stock_quantiy</dd>
+    </dl>
+</div>
+<div>
+    <a href="@Url.Action("Index")">Back to List</a>
+</div>
