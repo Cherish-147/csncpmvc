@@ -63,63 +63,26 @@ namespace csncpmvc.Controllers
 
 
         // POST: Product/Buy
-        //原来的
-        //[HttpPost]
-        //public ActionResult Buy(string goods_id)
-        //{
-        //    if (string.IsNullOrEmpty(goods_id))
-        //    {
-        //        ModelState.AddModelError("", "请选择一项商品，再点击购买");
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        // 执行购买逻辑
-        //        return RedirectToAction("Shopping"); // 假设重定向到购物页面
-        //    }
-        //}
-
-
-        // GET: Product/Buy/5
-        // 新
-        // GET: Product/Buy/5
-        public ActionResult Buy(int id)
-        {
-            var product = productService.GetProductById(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
-        }
-
         [HttpPost]
-        public ActionResult Buy(int PurchaseQuantity, string goods_id, string goods_name, string unit_price, string stock_quantiy, string Username)
+        public ActionResult Buy(string goods_id)
         {
-            try
+            if (string.IsNullOrEmpty(goods_id))
             {
-                var result = productService.Purchase(PurchaseQuantity, stock_quantiy, unit_price, goods_name, Username, goods_id);
-                return RedirectToAction("Shopping", new { id = result });
+                ModelState.AddModelError("", "请选择一项商品，再点击购买");
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            else
             {
-                ModelState.AddModelError("", ex.Message);
-                var product = productService.GetProductById(int.Parse(goods_id));
-                return View(product);
+                // 执行购买逻辑
+                return RedirectToAction("Shopping"); // 假设重定向到购物页面
             }
         }
 
-        public ActionResult Shopping(string id)
+        // GET: Product/Shopping
+        public ActionResult Shopping()
         {
-            ViewBag.ProductName = id;
             return View();
         }
-        //[HttpGet]
-        //public ActionResult Index()
-        //{
-        //    var products = productService.GetProducts(null, null, true);
-        //    return View(products);
-        //}
 
     }
 }
