@@ -48,7 +48,7 @@ namespace csncpmvc.Controllers
                     // 根据用户类型重定向
                     if (UserType == 1) // 如果是普通用户
                     {
-                        return RedirectToAction("Index", "User"); // 重定向到 User 控制器的 UserDashboard 动作
+                        return RedirectToAction("Index", "Product"); // 重定向到 User 控制器的 UserDashboard 动作
                     }
                     else
                     {

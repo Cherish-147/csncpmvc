@@ -1,0 +1,60 @@
+﻿@model IEnumerable<sales.DAL.产品表>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<h2>Product List</h2>
+
+<form method="get" action="@Url.Action("Index")">
+    <p>
+        Search by name:
+        <input type="text" name="searchString" value="@ViewBag.CurrentFilter" />
+        <input type="submit" value="Search" />
+    </p>
+    <p>
+        Filter by ID:
+        @Html.DropDownList("goodsId", ViewBag.GoodsIdList as SelectList, "Select ID", new { @onchange = "this.form.submit();" })
+    </p>
+    <p>
+        <button type="submit" name="showAll" value="true">Show All Data</button>
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Price</th>
+            <th>Stock Quantity</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="radio" name="selectedProductId" value="@item.goods_id" />
+                </td>
+                <td>@item.goods_id</td>
+                <td>@item.goods_name</td>
+                <td>@item.classifcation_id</td>
+                <td>@item.supplier_id</td>
+                <td>@item.unit_price</td>
+                <td>@item.stock_quantiy</td>
+                <td>
+                    @using (Html.BeginForm("Buy", "Product", FormMethod.Post))
+                    {
+                        @Html.Hidden("goods_id", item.goods_id)
+                        <button type="submit" class="btn btn-primary">Buy</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
