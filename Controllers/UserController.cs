@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdentityServer3.Core.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using sales.BLL;
 using sales.DAL;
 
@@ -86,8 +87,25 @@ namespace csncpmvc.Controllers
             return RedirectToAction("Shopping", new { id = selectedProductId });
             
         }
-
-       
+        /// <summary>
+        /// 加载图片
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetImage(string filePath)
+        {
+            if (System.IO.File.Exists(filePath))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                string contentType = "image/jpeg"; // 根据需要修改
+                return File(fileBytes, contentType);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
         //// GET: Product/Shopping
         public ActionResult Shopping(int?id)
         {

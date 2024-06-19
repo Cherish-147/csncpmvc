@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IdentityServer3.Core.Services;
 using sales.BLL;
 namespace csncpmvc.Controllers
 {
@@ -32,6 +33,7 @@ namespace csncpmvc.Controllers
         {
             return View();
         }
+        UserService userService = new UserService(); // 创建 UserService 实例
         // POST: Home/Login
         [HttpPost] // 指定该方法处理 POST 请求
         [ValidateAntiForgeryToken] // 验证防伪标记
@@ -40,7 +42,7 @@ namespace csncpmvc.Controllers
         {
             if (ModelState.IsValid) // 检查模型状态是否有效
             {
-                UserService userService = new UserService(); // 创建 UserService 实例
+               
                 bool isAuthenticated = userService.Login(UserName,PassWord,UserType); // 调用 UserService 的 Login 方法验证用户身份
 
                 if (isAuthenticated) // 如果验证通过
@@ -81,6 +83,28 @@ namespace csncpmvc.Controllers
             sales.BLL.UserService.UserRegister(UserName,Password,AgainPassword);
             TempData["Message"] = "注册成功";
             //return RedirectToAction("Index");
+            return View();
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(string username,string currentPassword,string newPassword,string confirmNewPassword) 
+        {
+                try
+                {
+                UserService.ChangePassword(username, currentPassword, newPassword, confirmNewPassword);
+
+                    ViewBag.Message = "密码修改成功";
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+            
+
             return View();
         }
 

@@ -1,24 +1,29 @@
 ﻿@model IEnumerable<sales.DAL.产品表>
 
 @{
-    ViewBag.Title = "Product List";
+    ViewBag.Title = "产品列表";
 }
 
-<h2>Product List</h2>
+<h2>产品列表</h2>
 
 <form method="get" action="@Url.Action("Index")">
     <p>
-        Search by name:
+        产品名称:
         <input type="text" name="searchString" value="@ViewBag.CurrentFilter" />
         <input type="submit" value="Search" />
     </p>
     <p>
-        Filter by ID:
-        @Html.DropDownList("goodsId", ViewBag.GoodsIdList as SelectList, "Select ID", new { @onchange = "this.form.submit();" })
+       产品ID:
+        @Html.DropDownList("goodsId", ViewBag.GoodsIdList as SelectList, "请选择ID", new { @onchange = "this.form.submit();" })
     </p>
     <p>
-        <button type="submit" name="showAll" value="true">Show All Data</button>
+        <button type="submit" name="showAll" value="true" class="btn btn-primary">显示全部</button>
     </p>
+</form>
+
+<form method="get" action="@Url.Action("CartView", "User")">
+    <!-- 确保控制器名称和方法名正确 -->
+    <button type="submit" class="btn btn-primary">查看购物车</button>
 </form>
 
 @using (Html.BeginForm("ProcessSelection", "User", FormMethod.Post))
@@ -26,13 +31,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Select</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Supplier</th>
-                <th>Price</th>
-                <th>Stock Quantity</th>
+                <th>选择</th>
+                <th>产品编号</th>
+                <th>产品名称</th>
+                <th>类别编号</th>
+                <th>供应商编号</th>
+                <th>单价</th>
+                <th>库存</th>
             </tr>
         </thead>
         <tbody>
@@ -53,13 +58,9 @@
         </tbody>
     </table>
     <div>
-        <button type="submit" name="action" value="Details">Submit Selected Product</button>
-        <button type="submit" name="action" value="Buy" class="btn btn-primary">Buy</button>
+        <button type="submit" name="action" value="Details" class="btn btn-primary">查看详情</button>
+        <button type="submit" name="action" value="Buy" class="btn btn-primary" style="margin-left: 50px;">购买</button>
 
     </div>
 }
 
-<form method="get" action="@Url.Action("CartView", "User")">
-    <!-- 确保控制器名称和方法名正确 -->
-    <button type="submit"  class="btn btn-primary">查看购物车</button>
-</form>

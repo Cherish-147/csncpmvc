@@ -6,9 +6,6 @@
 <link rel="stylesheet" href="~/Content/AuditOrder.css" />
 <h2>CartView</h2>
 
-@*@if (Model != null && Model.Any())
-{*@
-
 
 @using (Html.BeginForm("ProcessSelections", "User", FormMethod.Post))
 {
@@ -62,8 +59,3 @@
     <button type="submit" name="action" value="Detele" class="btn btn-primary">删除</button>
 </div>
 
-@*}
-else
-{
-    <p>没有找到符合条件的订单。</p>
-}*@

@@ -27,8 +27,46 @@
 
         <dt>Stock Quantity</dt>
         <dd>@Model.stock_quantiy</dd>
+
+        <dt>Product Image</dt>
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.picture))
+            {
+                <img src="@Url.Action("GetImage", "Image", new { filePath = Model.picture })" alt="@Model.goods_name" class="img-responsive" style="max-width: 300px; max-height: 300px;" />
+            }
+            else
+            {
+                <span>No image available</span>
+            }
+        </dd>
     </dl>
 </div>
 <div>
-    <a href="@Url.Action("Index")">Back to List</a>
+    <a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>
 </div>
+
+<style>
+    .dl-horizontal dt {
+        float: left;
+        width: 150px;
+        clear: left;
+        text-align: right;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 160px;
+        margin-bottom: 10px;
+    }
+
+    .img-responsive {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .btn-primary {
+        margin-top: 20px;
+    }
+</style>
